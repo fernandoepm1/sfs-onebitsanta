@@ -5,6 +5,7 @@ ruby '2.6.5'
 
 gem 'rails', '~> 5.2.4', '>= 5.2.4.1'
 gem 'puma', '~> 3.11'
+gem "rack", '~> 2.0.8'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'redis', '~> 4.0'
 gem 'sidekiq'
