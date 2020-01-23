@@ -23,6 +23,8 @@ COPY . $APP_PATH
 # Add a script to be executed every time the container starts.
 COPY start.sh /usr/bin/
 RUN chmod +x /usr/bin/start.sh
+COPY start_jobs.sh /usr/bin/
+RUN chmod +x /usr/bin/start_jobs.sh
 ENTRYPOINT ["start.sh"]
 EXPOSE 3000
 
