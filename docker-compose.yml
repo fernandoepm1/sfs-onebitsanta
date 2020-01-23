@@ -7,7 +7,7 @@ services:
       - 'postgres:/var/lib/postgresql/data'
 
   redis:
-    image: 'redis:3.2-alpine'
+    image: 'redis:5.0.7-alpine'
     command: redis-server
     ports:
       - '6379:6379'
@@ -20,11 +20,18 @@ services:
       - 'redis'
       - 'app'
     build: .
-    command: bash start_jobs
+    command:
+      - start_jobs.sh
     volumes:
       - '.:/onebitsanta'
     volumes_from:
       - box
+
+  mailcatcher:
+    image: yappabe/mailcatcher
+    ports:
+      - 1025:1025
+      - 1080:1080
 
   app:
     depends_on:
