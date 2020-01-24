@@ -10,10 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_21_234739) do
+ActiveRecord::Schema.define(version: 2020_01_24_233225) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "gathering_members", force: :cascade do |t|
+    t.bigint "gathering_id"
+    t.bigint "member_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["gathering_id"], name: "index_gathering_members_on_gathering_id"
+    t.index ["member_id"], name: "index_gathering_members_on_member_id"
+  end
+
+  create_table "gatherings", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.bigint "user_id"
+    t.decimal "gift_value"
+    t.text "location"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_gatherings_on_user_id"
+  end
+
+  create_table "members", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.boolean "saw_mail"
+    t.boolean "is_user"
+    t.string "token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -28,4 +58,7 @@ ActiveRecord::Schema.define(version: 2020_01_21_234739) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "gathering_members", "gatherings"
+  add_foreign_key "gathering_members", "members"
+  add_foreign_key "gatherings", "users"
 end
