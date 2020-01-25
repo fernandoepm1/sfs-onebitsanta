@@ -1,4 +1,8 @@
-# README
+# OneBitSanta
+
+A beautiful app to organize your next Secret Santa party with your friends and family
+
+## To fill out later
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
