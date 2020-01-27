@@ -1,6 +1,9 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  get 'members/create'
+  get 'members/update'
+  get 'members/destroy'
   get 'gatherings/index'
   get 'gatherings/create'
   get 'gatherings/show'
