@@ -14,6 +14,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'materialize-sass', '~> 0.99.0'
 gem 'material_icons'
 gem 'slim'
+gem 'rubocop', require: false
 gem 'awesome_print'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
