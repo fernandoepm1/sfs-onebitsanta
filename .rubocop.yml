@@ -1,0 +1,8 @@
+Layout/LineLength:
+  Max: 100
+
+Metrics/BlockLength:
+  Max: 50
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
