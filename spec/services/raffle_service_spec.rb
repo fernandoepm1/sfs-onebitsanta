@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe RaffleService do
+RSpec.describe RaffleService do
   before(:each) do
     @gathering = create(:gathering, status: :pending)
   end
@@ -8,9 +6,9 @@ describe RaffleService do
   describe '#call' do
     context 'when there are more than 2 members' do
       before(:each) do
-        create(:member, gathering: @gathering)
-        create(:member, gathering: @gathering)
-        create(:member, gathering: @gathering)
+        create(:member, gatherings: [@gathering])
+        create(:member, gatherings: [@gathering])
+        create(:member, gatherings: [@gathering])
         @gathering.reload
 
         @result = RaffleService.new(@gathering).call
@@ -41,7 +39,7 @@ describe RaffleService do
 
     context 'when there are 2 or less members' do
       before(:each) do
-        create(:member, gathering: @gathering)
+        create(:member, gatherings: [@gathering])
         @gathering.reload
 
         @result = RaffleService.new(@gathering).call

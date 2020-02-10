@@ -1,13 +1,9 @@
 class GatheringMailer < ApplicationMailer
+  def raffle(gathering, member, friend)
+    @gathering = gathering
+    @member    = member
+    @friend    = friend
 
-  # Subject can be set in your I18n file at config/locales/en.yml
-  # with the following lookup:
-  #
-  #   en.gathering_mailer.raffle.subject
-  #
-  def raffle
-    @greeting = "Hi"
-
-    mail to: "to@example.org"
+    mail to: @member.email, subject: "Secret Santa: #{@gathering.title}"
   end
 end
