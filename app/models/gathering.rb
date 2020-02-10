@@ -4,13 +4,11 @@ class Gathering < ApplicationRecord
   has_many :gathering_members
   has_many :members, through: :gathering_members
 
-  attr_default :status, :pending
-
   validates :title, :description, :user, :status, presence: true
 
   enum status: [:pending, :finished]
 
-  before_create :set_member
+  after_create :set_member
 
   private
 
