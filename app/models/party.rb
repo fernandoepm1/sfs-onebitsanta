@@ -1,8 +1,8 @@
-class Gathering < ApplicationRecord
+class Party < ApplicationRecord
   belongs_to :user
 
-  has_many :gathering_members
-  has_many :members, through: :gathering_members
+  has_many :party_members
+  has_many :members, through: :party_members
 
   validates :title, :description, :user, :status, presence: true
 
