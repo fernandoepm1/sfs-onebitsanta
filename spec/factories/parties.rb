@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :gathering do
+  factory :party do
     title       { FFaker::Lorem.word }
     description { FFaker::Lorem.sentence }
     user
