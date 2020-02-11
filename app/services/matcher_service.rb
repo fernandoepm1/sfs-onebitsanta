@@ -1,13 +1,13 @@
-class RaffleService
-  def initialize(gathering)
-    @gathering = gathering
+class MatcherService
+  def initialize(party)
+    @party = party
   end
 
   def call
-    return false if @gathering.members.count < 3
+    return false if @party.members.count < 3
 
     results = {}
-    members = @gathering.members
+    members = @party.members
     friends = members
     i = 0
 
@@ -20,7 +20,7 @@ class RaffleService
 
         if friends.count == 1 && friend == member
           results = {}
-          members = @gathering.members
+          members = @party.members
           friends = members
           i = 0
           break
