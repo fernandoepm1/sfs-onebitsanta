@@ -7,8 +7,8 @@ Rails.application.routes.draw do
 
   root 'pages#home'
 
-  resources :gatherings, except: [:new, :edit] do
-    post 'raffle', on: :member
+  resources :parties, except: [:new, :edit] do
+    post 'match', on: :member
   end
 
   get 'members/:token/opened', to: 'members#opened'

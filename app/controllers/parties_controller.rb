@@ -1,4 +1,4 @@
-class GatheringsController < ApplicationController
+class PartiesController < ApplicationController
   def index
   end
 
@@ -14,6 +14,6 @@ class GatheringsController < ApplicationController
   def destroy
   end
 
-  def raffle
+  def match
   end
 end
