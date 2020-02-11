@@ -2,9 +2,6 @@ class Member < ApplicationRecord
 	has_many :party_members
 	has_many :parties, through: :party_members
 
-	attr_default :saw_mail, false
-	attr_default :is_user, false
-
 	validates :name, :email, :parties
 
 	before_create :generate_token
