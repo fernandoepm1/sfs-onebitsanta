@@ -1,17 +1,17 @@
-RSpec.describe RaffleService do
+RSpec.describe MatcherService do
   before(:each) do
-    @gathering = create(:gathering, status: :pending)
+    @party = create(:party, status: :pending)
   end
 
   describe '#call' do
     context 'when there are more than 2 members' do
       before(:each) do
-        create(:member, gatherings: [@gathering])
-        create(:member, gatherings: [@gathering])
-        create(:member, gatherings: [@gathering])
-        @gathering.reload
+        create(:member, partys: [@party])
+        create(:member, partys: [@party])
+        create(:member, partys: [@party])
+        @party.reload
 
-        @result = RaffleService.new(@gathering).call
+        @result = MatcherService.new(@party).call
       end
 
       it 'returns a hash as the result' do
@@ -19,11 +19,11 @@ RSpec.describe RaffleService do
       end
 
       it 'all hash keys are members' do
-        expect(@result.keys.sort).to eql(@gathering.members.sort)
+        expect(@result.keys.sort).to eql(@party.members.sort)
       end
 
       it 'all hash values are members' do
-        expect(@result.values.sort).to eql(@gathering.members.sort)
+        expect(@result.values.sort).to eql(@party.members.sort)
       end
 
       it 'guarantees a member does not get himself' do
@@ -39,10 +39,10 @@ RSpec.describe RaffleService do
 
     context 'when there are 2 or less members' do
       before(:each) do
-        create(:member, gatherings: [@gathering])
-        @gathering.reload
+        create(:member, partys: [@party])
+        @party.reload
 
-        @result = RaffleService.new(@gathering).call
+        @result = MatcherService.new(@party).call
       end
 
       it 'raises an error' do
