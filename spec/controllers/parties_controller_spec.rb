@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GatheringsController, type: :controller do
+RSpec.describe PartiesController, type: :controller do
   include Devise::Test::ControllerHelpers
 
   before(:each) do
@@ -19,27 +19,27 @@ RSpec.describe GatheringsController, type: :controller do
   describe 'POST #create' do
     context 'with valid attributes' do
       before(:each) do
-        @gathering_attr = attributes_for(:gathering, user: @current_user)
-        post :create, params: { gathering: @gathering_attr }
+        @party_attr = attributes_for(:party, user: @current_user)
+        post :create, params: { party: @party_attr }
       end
 
-      it 'redirects to new gathering' do
+      it 'redirects to new party' do
         expect(response).to have_http_status(302)
-        expect(response).to redirect_to("/gatherings/#{Gathering.last.id}")
+        expect(response).to redirect_to("/partys/#{party.last.id}")
       end
 
-      it 'creates gathering with valid attributes' do
-        gathering = Gathering.last
-        expect(gathering.user).to eql(@current_user)
-        expect(gathering.title).to eql(@gathering_attr[:title])
-        expect(gathering.description).to eql(@gathering_attr[:description])
-        expect(gathering.status).to eql('pending')
+      it 'creates party with valid attributes' do
+        party = party.last
+        expect(party.user).to eql(@current_user)
+        expect(party.title).to eql(@party_attr[:title])
+        expect(party.description).to eql(@party_attr[:description])
+        expect(party.status).to eql('pending')
       end
 
       it 'associates organizer as a member' do
-        gathering = Gathering.last
-        expect(gathering.members.last.name).to eql(@current_user.name)
-        expect(gathering.members.last.email).to eql(@current_user.email)
+        party = party.last
+        expect(party.members.last.name).to eql(@current_user.name)
+        expect(party.members.last.email).to eql(@current_user.email)
       end
     end
 
@@ -48,25 +48,25 @@ RSpec.describe GatheringsController, type: :controller do
   end
 
   describe 'GET #show' do
-    context 'when gathering exists' do
+    context 'when party exists' do
       context 'and user is the current organizer' do
         it 'returns http success' do
-          gathering = create(:gathering, user: @current_user)
-          get :show, params: { id: gathering.id }
+          party = create(:party, user: @current_user)
+          get :show, params: { id: party.id }
           expect(response).to have_http_status(:success)
         end
       end
 
       context 'and user is not the current organizer' do
         it 'redirects to root' do
-          gathering = create(:gathering)
-          get :show, params: { id: gathering.id }
+          party = create(:party)
+          get :show, params: { id: party.id }
           expect(response).to redirect_to('/')
         end
       end
     end
 
-    context 'when gathering does not exist' do
+    context 'when party does not exist' do
       it 'redirects to root' do
         get :show, params: { id: 0 }
         expect(response).to redirect_to('/')
@@ -77,27 +77,27 @@ RSpec.describe GatheringsController, type: :controller do
   describe 'PUT #update' do
     before(:each) do
       request.env['HTTP_ACCEPT'] = 'application/json'
-      @new_gathering_attr = attributes_for(:gathering)
+      @new_party_attr = attributes_for(:party)
     end
 
     context 'user is the current organizer' do
       it 'returns http success' do
-        gathering = create(:gathering, user: @current_user)
-        put :update, params: { id: gathering.id, gathering: @new_gathering_attr }
+        party = create(:party, user: @current_user)
+        put :update, params: { id: party.id, party: @new_party_attr }
         expect(response).to have_http_status(:success)
       end
 
-      it 'updates gathering with new attributes' do
-        gathering = Gathering.last
-        expect(gathering.title).to eql(@new_gathering_attr[:title])
-        expect(gathering.description).to eql(@new_gathering_attr[:description])
+      it 'updates party with new attributes' do
+        party = party.last
+        expect(party.title).to eql(@new_party_attr[:title])
+        expect(party.description).to eql(@new_party_attr[:description])
       end
     end
 
     context 'user is not the current organizer' do
       it 'returns http forbidden' do
-        gathering = create(:gathering)
-        put :update, params: { id: gathering.id, gathering: @new_gathering_attr }
+        party = create(:party)
+        put :update, params: { id: party.id, party: @new_party_attr }
         expect(response).to have_http_status(:forbidden)
       end
     end
@@ -110,16 +110,16 @@ RSpec.describe GatheringsController, type: :controller do
 
     context 'when user is the current organizer' do
       it 'returns http success' do
-        gathering = create(:gathering, user: @current_user)
-        get :destroy, params: { id: gathering.id }
+        party = create(:party, user: @current_user)
+        get :destroy, params: { id: party.id }
         expect(response).to have_http_status(:success)
       end
     end
 
     context 'when user is not the current organizer' do
       it 'return http forbidden' do
-        gathering = create(:gathering)
-        get :destroy, params: { id: gathering.id }
+        party = create(:party)
+        get :destroy, params: { id: party.id }
         expect(response).to have_http_status(:forbidden)
       end
     end
@@ -132,28 +132,28 @@ RSpec.describe GatheringsController, type: :controller do
 
     context 'user is the current organizer' do
       before(:each) do
-        @gathering = create(:gathering, user: @current_user)
+        @party = create(:party, user: @current_user)
       end
 
-      context 'and gathering has more than 2 members' do
+      context 'and party has more than 2 members' do
         before(:each) do
-          create(:member, gathering: @gathering)
-          create(:member, gathering: @gathering)
+          create(:member, party: @party)
+          create(:member, party: @party)
         end
 
         it 'returns http success' do
-          post :raffle, params: { id: @gathering.id }
+          post :raffle, params: { id: @party.id }
           expect(response).to have_http_status(:success)
         end
       end
 
-      context 'and gathering has only two members' do
+      context 'and party has only two members' do
         before(:each) do
-          create(:member, gathering: @gathering.id)
+          create(:member, party: @party.id)
         end
 
         it 'returns http unprocessable_entity' do
-          post :raffle, params: { id: @gathering.id }
+          post :raffle, params: { id: @party.id }
           expect(response).to have_http_status(:unprocessable_entity)
         end
       end
@@ -161,12 +161,12 @@ RSpec.describe GatheringsController, type: :controller do
 
     context 'user is not the current organizer' do
       before(:each) do
-        @gathering = create(:gathering)
-        create(:member, gathering: @gathering)
+        @party = create(:party)
+        create(:member, party: @party)
       end
 
       it 'returns http forbidden' do
-        post :raffle, params: { id: @gathering.id }
+        post :raffle, params: { id: @party.id }
         expect(response).to have_http_status(:forbidden)
       end
     end

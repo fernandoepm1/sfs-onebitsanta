@@ -15,16 +15,17 @@ ActiveRecord::Schema.define(version: 2020_02_10_232308) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "gathering_members", force: :cascade do |t|
-    t.bigint "gathering_id"
-    t.bigint "member_id"
+  create_table "members", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.boolean "mail_opened", default: false
+    t.boolean "is_user", default: false
+    t.string "token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["gathering_id"], name: "index_gathering_members_on_gathering_id"
-    t.index ["member_id"], name: "index_gathering_members_on_member_id"
   end
 
-  create_table "gatherings", force: :cascade do |t|
+  create_table "parties", force: :cascade do |t|
     t.string "title"
     t.text "description"
     t.bigint "user_id"
@@ -35,17 +36,16 @@ ActiveRecord::Schema.define(version: 2020_02_10_232308) do
     t.datetime "event_date"
     t.string "event_hour"
     t.integer "status", default: 0
-    t.index ["user_id"], name: "index_gatherings_on_user_id"
+    t.index ["user_id"], name: "index_parties_on_user_id"
   end
 
-  create_table "members", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.boolean "saw_mail"
-    t.boolean "is_user"
-    t.string "token"
+  create_table "party_members", force: :cascade do |t|
+    t.bigint "party_id"
+    t.bigint "member_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_party_members_on_member_id"
+    t.index ["party_id"], name: "index_party_members_on_party_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 2020_02_10_232308) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "gathering_members", "gatherings"
-  add_foreign_key "gathering_members", "members"
-  add_foreign_key "gatherings", "users"
+  add_foreign_key "parties", "users"
+  add_foreign_key "party_members", "members"
+  add_foreign_key "party_members", "parties"
 end

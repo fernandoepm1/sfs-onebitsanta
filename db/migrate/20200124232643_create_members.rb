@@ -3,8 +3,8 @@ class CreateMembers < ActiveRecord::Migration[5.2]
     create_table :members do |t|
       t.string  :name
       t.string  :email
-      t.boolean :saw_mail
-      t.boolean :is_user
+      t.boolean :mail_opened, default: false
+      t.boolean :is_user, default: false
       t.string  :token
 
       t.timestamps
