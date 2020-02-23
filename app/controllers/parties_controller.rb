@@ -9,6 +9,7 @@ class PartiesController < ApplicationController
   end
 
   def create
+    # title: "New Secret santa"
     @party = Party.new(party_params)
 
     respond_to do |format|
@@ -62,8 +63,8 @@ class PartiesController < ApplicationController
 
   def party_params
     params.require(:party)
-          .permit(:title, :description, :event_date, :event_hour, :location)
-          .merge(user: current_user)
+      .permit(:title, :description, :event_date, :event_hour, :location)
+      .merge(user: current_user)
   end
 
   def is_owner?
