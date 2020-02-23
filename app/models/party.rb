@@ -8,7 +8,7 @@ class Party < ApplicationRecord
 
   enum status: [:pending, :finished]
 
-  after_create :set_member
+  after_validation :set_member
 
   private
 
